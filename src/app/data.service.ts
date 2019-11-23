@@ -3,27 +3,36 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
+// class Product {
+//   id: string;
+//   imgUrl: string; 
+//   name: string; 
+//   description: string;
+//   price: number
+// }
 export class DataService {
-  getProducts () : any[] {
+  getProducts () : Array<any> {
     return [
       {
-        id: 1,
+        id: "1",
         imgUrl: "https://homepages.cae.wisc.edu/~ece533/images/airplane.png", 
-        name: "PRODUCT ITEM NUMBER 1", 
-        description: "Description for product item number 1",
-        price: 5.99
+        name: "Máy bay", 
+        description: "Đây là cái máy bay",
+        price: 10000,
+        quantity: 1,
       },
       {
-        pId: 2,
+        id: "2",
         imgUrl: "https://homepages.cae.wisc.edu/~ece533/images/arctichare.png", 
-        name: "PRODUCT ITEM NUMBER 2", 
-        description: "Description for product item number 2",
-        price: 9.99
+        name: "Con gấu", 
+        description: "Đây là con gấu",
+        price: 50000,
+        quantity: 1,
       }
     ];
   }
   getTax () : number {
-    return 5;
+    return 10;
   }
   getCodes () : any[] {
     return [

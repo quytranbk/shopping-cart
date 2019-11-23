@@ -11,9 +11,11 @@ import { DataService } from '../data.service';
 export class CheckoutComponent implements OnInit {
   subTotal: number = 0;
   tax: number  = 0;
+  taxMoney: number  = 0;
   total: number = 0;
   promoCode: any;
   promoCodeInp = new FormControl();
+  isProduct: boolean;
   private promoCodes: any[] = [];
   private dSrv: DataService = new DataService();
   @Input() productSum : number;
@@ -26,8 +28,11 @@ export class CheckoutComponent implements OnInit {
       }, 0
     );
     let discount = this.promoCode? this.promoCode.discount : 0;
-    this.total = (this.subTotal + this.tax) * (1 - discount / 100);
+    this.taxMoney = this.subTotal * this.tax / 100;
+    this.total = (this.subTotal + this.taxMoney) * (1 - discount / 100);
     this.total = Number.parseFloat(this.total.toFixed(2));
+
+    this.isProduct = productInfo.length? true: false;
   }
 
   constructor() { }
@@ -57,7 +62,8 @@ export class CheckoutComponent implements OnInit {
     );
     if (this.promoCode) {
       let discount = this.promoCode? this.promoCode.discount : 0;
-      this.total = (this.subTotal + this.tax) * (1 - discount / 100);
+      this.taxMoney = this.subTotal * this.tax / 100;
+      this.total = (this.subTotal + this.taxMoney) * (1 - discount / 100);
       this.total = Number.parseFloat(this.total.toFixed(2));
       alert("Available Promo Code");
     }

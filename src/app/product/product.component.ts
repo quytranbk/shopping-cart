@@ -10,10 +10,27 @@ import { DataService } from '../data.service';
 export class ProductComponent implements OnInit {
   productList : any[] = [];
   products : any[] = [];
+  isProducts : boolean;
   private dSrv: DataService = new DataService();
+
   @Output() sendProductSumEvent = new EventEmitter<any>();
   @Output() sendProductInfoEvent = new EventEmitter<any>();
 
+  constructor() { }
+
+  ngOnInit() {
+    this.products = this.productList = this.dSrv.getProducts();
+    this.isProducts = this.products.length? true: false;
+    setTimeout(
+      () => {
+        this.sendProductSum();
+        this.sendProductInfo();
+      }
+    );
+    
+  }
+
+  // Emit to app component
   sendProductSum () {
     this.sendProductSumEvent.emit(
       this.products.reduce(
@@ -24,7 +41,8 @@ export class ProductComponent implements OnInit {
       )
     );
   }
-
+  
+  // Emit to app component
   sendProductInfo () {
     this.sendProductInfoEvent.emit(
       this.products.map( 
@@ -37,12 +55,15 @@ export class ProductComponent implements OnInit {
   }
 
   changeQuantity (inputQuantity, product) {
+    // validate input: allow number > 0
     let value = Number.parseInt(inputQuantity.value);
     if (value <= 0) {
       inputQuantity.value = "";
       return;
     }
+
     product.quantity = Number.parseInt(inputQuantity.value);
+    // emit
     this.sendProductSum();
     this.sendProductInfo();
   }
@@ -51,14 +72,10 @@ export class ProductComponent implements OnInit {
     this.products = this.products.filter(
       item => item.id != product.id
     );
+    this.isProducts = this.products.length? true: false;
+    // emit
     this.sendProductSum();
     this.sendProductInfo();
-  }
-  
-  constructor() { }
-
-  ngOnInit() {
-    this.products = this.productList = this.dSrv.getProducts();
   }
 
 }

@@ -11,6 +11,8 @@ export class HeaderComponent implements OnInit {
   @Input() productSum : number = 0;
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+   }
 
 }

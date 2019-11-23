@@ -1,4 +1,6 @@
-<ul class="products">
+
+<div *ngIf="!isProducts">No have product</div>
+<ul class="products" *ngIf="isProducts">
     <li class="row" *ngFor="let product of products">
       <div class="col left">
         <div class="thumbnail">
@@ -11,13 +13,13 @@
           <div class="description">
             {{product.description}}
           </div>
-          <div class="price">{{product.price | currency}}</div>
+          <div class="price">{{product.price | currency : 'VND': 'code': '1.0-0' : 'vi'}}</div>
         </div>
       </div>
 
       <div class="col right">
         <div class="quantity">
-          <input type="number" class="quantity" step="1" #inputQuantity (input)="changeQuantity(inputQuantity, product)"/>
+          <input type="number" class="quantity" step="1" #inputQuantity [value]="product.quantity" (input)="changeQuantity(inputQuantity, product)"/>
         </div>
 
         <div class="remove" (click)="clickRemove(product)">
